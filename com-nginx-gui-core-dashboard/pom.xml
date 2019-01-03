@@ -12,4 +12,12 @@
     <artifactId>com.nginx.gui.core.dashboard</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.nginx.gui.core</groupId>
+            <artifactId>com.nginx.gui.core.util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>
