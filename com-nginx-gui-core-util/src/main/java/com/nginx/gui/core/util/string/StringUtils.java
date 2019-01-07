@@ -1,6 +1,6 @@
 package com.nginx.gui.core.util.string;
 
-import com.github.pagehelper.util.StringUtil;
+
 
 /**
  * @author: hengbin_wu
@@ -13,7 +13,7 @@ public class StringUtils {
         if(str == null || (strLen = str.length()) == 0){
             return true;
         }
-        return  StringUtil.isEmpty(str);
+        return  false;
     }
 
     public static String toUpperCaseFirstOne(String s){
