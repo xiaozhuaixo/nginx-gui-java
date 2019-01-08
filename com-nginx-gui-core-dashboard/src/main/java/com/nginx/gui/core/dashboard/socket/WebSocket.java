@@ -31,7 +31,6 @@ public class WebSocket {
      */
     @OnOpen
     public void onOpen(Session session){
-        System.out.println("有新的连接");
         this.session = session;
         webSocketSet.add(this);
     }
@@ -60,19 +59,11 @@ public class WebSocket {
     }
 
     /**
-     * 发生错误调用
-     * @param session
-     */
-    @OnError
-    public void onError(Session session){
-        System.out.println("发生错误");
-    }
-
-    /**
      * 连接关闭
      */
     @OnClose
     public void onClose(){
         System.out.println("连接关闭");
+        webSocketSet.remove(this);
     }
 }
