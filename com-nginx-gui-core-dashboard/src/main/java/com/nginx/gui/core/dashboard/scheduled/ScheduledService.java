@@ -1,5 +1,8 @@
 package com.nginx.gui.core.dashboard.scheduled;
 
+import com.nginx.gui.core.util.scanning.DashboardUtil;
+import lombok.extern.log4j.Log4j2;
+import org.hyperic.sigar.SigarException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -9,10 +12,30 @@ import org.springframework.stereotype.Component;
  * @Description:
  */
 @Component
+@Log4j2
 public class ScheduledService {
 
+    /**
+     * 扫描cpu
+     */
     @Scheduled(cron = "0/10 * * * * ?")
     public void scanningCpu(){
-        System.out.println("测试时间");
+        try {
+            DashboardUtil.cpu();
+        }catch (SigarException e){
+            log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 扫描内存
+     */
+    @Scheduled(cron = "0/10 * * * * ?")
+    public void scanningMemory(){
+        try {
+            DashboardUtil.memory();
+        }catch (SigarException e){
+            log.error(e.getMessage());
+        }
     }
 }

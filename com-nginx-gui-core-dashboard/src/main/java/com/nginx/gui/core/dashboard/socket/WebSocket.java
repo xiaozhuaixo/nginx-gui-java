@@ -66,4 +66,13 @@ public class WebSocket {
         System.out.println("连接关闭");
         webSocketSet.remove(this);
     }
+
+    /**
+     * 群发
+     */
+    public static void sendAll(String message){
+        webSocketSet.forEach(socket -> {
+            socket.sendMessage(message);
+        });
+    }
 }
