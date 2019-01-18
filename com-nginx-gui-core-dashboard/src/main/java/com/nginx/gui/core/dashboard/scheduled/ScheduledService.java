@@ -18,8 +18,9 @@ public class ScheduledService {
     /**
      * 扫描cpu
      */
-    @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0/5 * *  * * ? ")
     public void scanningCpu(){
+        System.out.println(111);
         try {
             DashboardUtil.cpu();
         }catch (SigarException e){
@@ -32,10 +33,10 @@ public class ScheduledService {
      */
     @Scheduled(cron = "0/10 * * * * ?")
     public void scanningMemory(){
-        try {
-            DashboardUtil.memory();
-        }catch (SigarException e){
-            log.error(e.getMessage());
-        }
+//        try {
+//            DashboardUtil.memory();
+//        }catch (SigarException e){
+//            log.error(e.getMessage());
+//        }
     }
 }
