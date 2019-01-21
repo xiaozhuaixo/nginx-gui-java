@@ -1,6 +1,10 @@
 package com.nginx.gui.core.util.scanning;
 
+import com.alibaba.fastjson.JSONObject;
 import org.hyperic.sigar.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author: hengbin_wu
@@ -13,40 +17,31 @@ public class DashboardUtil {
      * cpu 使用情况
      * @throws SigarException
      */
-    public static void cpu() throws SigarException {
+    public static JSONObject cpu() throws SigarException {
+        JSONObject resultMap = new JSONObject();
         Sigar sigar = new Sigar();
-        CpuPerc[] cpuPercs = sigar.getCpuPercList();
-        for(int i = 0 ; i < cpuPercs.length ; i++){
-            CpuPerc cpuPerc = cpuPercs[i];
-            System.out.println("CPU用户使用率:    " + CpuPerc.format(cpuPerc.getUser()));
-            System.out.println("CPU系统使用率:    " + CpuPerc.format(cpuPerc.getSys()));
-            System.out.println("CPU当前等待率:    " + CpuPerc.format(cpuPerc.getWait()));
-            System.out.println("CPU当前错误率:    " + CpuPerc.format(cpuPerc.getNice()));
-            System.out.println("CPU当前空闲率:    " + CpuPerc.format(cpuPerc.getIdle()));
-            System.out.println("CPU总的使用率:    " + CpuPerc.format(cpuPerc.getCombined()));
-        }
+        Cpu cpu = sigar.getCpu();
+        //用户 CPU使用率
+        resultMap.put("user" , cpu.getUser());
+        //系统 CPU使用率
+        resultMap.put("sys" , cpu.getSys());
+        //空闲 CPU使用率
+        resultMap.put("idle" , cpu.getIdle());
+        return resultMap;
     }
 
     /**
      * 内存使用情况
      * @throws SigarException
      */
-    public static void memory() throws SigarException{
+    public static JSONObject memory() throws SigarException{
+        JSONObject resultJson = new JSONObject();
         Sigar sigar = new Sigar();
         Mem mem = sigar.getMem();
-        // 内存总量
-        System.out.println("内存总量:    " + mem.getTotal() / 1024L + "K av");
-        // 当前内存使用量
-        System.out.println("当前内存使用量:    " + mem.getUsed() / 1024L + "K used");
-        // 当前内存剩余量
-        System.out.println("当前内存剩余量:    " + mem.getFree() / 1024L + "K free");
-        Swap swap = sigar.getSwap();
-        // 交换区总量
-        System.out.println("交换区总量:    " + swap.getTotal() / 1024L + "K av");
-        // 当前交换区使用量
-        System.out.println("当前交换区使用量:    " + swap.getUsed() / 1024L + "K used");
-        // 当前交换区剩余量
-        System.out.println("当前交换区剩余量:    " + swap.getFree() / 1024L + "K free");
+        resultJson.put("av" , mem.getTotal() / 1024L);
+        resultJson.put("used" , mem.getUsed() / 1024L);
+        resultJson.put("free" ,  mem.getFree() / 1024L);
+        return resultJson;
     }
 
     /**

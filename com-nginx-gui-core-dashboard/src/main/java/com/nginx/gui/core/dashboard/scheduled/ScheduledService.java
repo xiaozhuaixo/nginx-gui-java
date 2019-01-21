@@ -1,5 +1,7 @@
 package com.nginx.gui.core.dashboard.scheduled;
 
+import com.alibaba.fastjson.JSONObject;
+import com.nginx.gui.core.dashboard.socket.WebSocket;
 import com.nginx.gui.core.util.scanning.DashboardUtil;
 import com.nginx.gui.core.util.sigar.SigarConfig;
 import lombok.extern.log4j.Log4j2;
@@ -7,6 +9,9 @@ import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author: hengbin_wu
@@ -17,6 +22,9 @@ import org.springframework.stereotype.Component;
 @Log4j2
 public class ScheduledService {
 
+    @Resource
+    private WebSocket webSocket;
+
     /**
      * 扫描cpu
      */
@@ -24,7 +32,8 @@ public class ScheduledService {
     public void scanningCpu(){
         SigarConfig.initSigar();
         try {
-            DashboardUtil.cpu();
+            JSONObject resultJson = DashboardUtil.cpu();
+            webSocket.sendMessage(String.format("%s:%s" , "CPU" , resultJson.toJSONString()));
         }catch (SigarException e){
             log.error(e.getMessage());
         }
@@ -35,10 +44,11 @@ public class ScheduledService {
      */
     @Scheduled(cron = "0/10 * * * * ?")
     public void scanningMemory(){
-//        try {
-//            DashboardUtil.memory();
-//        }catch (SigarException e){
-//            log.error(e.getMessage());
-//        }
+        try {
+            JSONObject jsonObject = DashboardUtil.memory();
+            webSocket.sendMessage(String.format("%s:%s" , "memory" , jsonObject.toJSONString()));
+        }catch (SigarException e){
+            log.error(e.getMessage());
+        }
     }
 }
