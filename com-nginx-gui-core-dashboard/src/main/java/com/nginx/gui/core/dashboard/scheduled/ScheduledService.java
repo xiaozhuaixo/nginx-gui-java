@@ -1,7 +1,9 @@
 package com.nginx.gui.core.dashboard.scheduled;
 
 import com.nginx.gui.core.util.scanning.DashboardUtil;
+import com.nginx.gui.core.util.sigar.SigarConfig;
 import lombok.extern.log4j.Log4j2;
+import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -20,7 +22,7 @@ public class ScheduledService {
      */
     @Scheduled(cron = "0/5 * *  * * ? ")
     public void scanningCpu(){
-        System.out.println(111);
+        SigarConfig.initSigar();
         try {
             DashboardUtil.cpu();
         }catch (SigarException e){
