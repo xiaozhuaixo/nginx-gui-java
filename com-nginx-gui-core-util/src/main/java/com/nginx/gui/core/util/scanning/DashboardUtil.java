@@ -22,11 +22,11 @@ public class DashboardUtil {
         Sigar sigar = new Sigar();
         Cpu cpu = sigar.getCpu();
         //用户 CPU使用率
-        resultMap.put("user" , cpu.getUser());
+        resultMap.put("user" , CpuPerc.format(cpu.getUser()));
         //系统 CPU使用率
-        resultMap.put("sys" , cpu.getSys());
+        resultMap.put("sys" , CpuPerc.format(cpu.getSys()));
         //空闲 CPU使用率
-        resultMap.put("idle" , cpu.getIdle());
+        resultMap.put("idle" , CpuPerc.format(cpu.getIdle()));
         return resultMap;
     }
 
