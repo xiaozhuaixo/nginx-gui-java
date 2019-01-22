@@ -30,10 +30,9 @@ public class ScheduledService {
      */
     @Scheduled(cron = "0/5 * *  * * ? ")
     public void scanningCpu(){
-        SigarConfig.initSigar();
         try {
             JSONObject resultJson = DashboardUtil.cpu();
-            webSocket.sendMessage(String.format("%s:%s" , "CPU" , resultJson.toJSONString()));
+            webSocket.sendAll(String.format("%s-%s" , "CPU" , resultJson.toJSONString()));
         }catch (SigarException e){
             log.error(e.getMessage());
         }
@@ -46,7 +45,7 @@ public class ScheduledService {
     public void scanningMemory(){
         try {
             JSONObject jsonObject = DashboardUtil.memory();
-            webSocket.sendMessage(String.format("%s:%s" , "memory" , jsonObject.toJSONString()));
+            webSocket.sendAll(String.format("%s-%s" , "memory" , jsonObject.toJSONString()));
         }catch (SigarException e){
             log.error(e.getMessage());
         }

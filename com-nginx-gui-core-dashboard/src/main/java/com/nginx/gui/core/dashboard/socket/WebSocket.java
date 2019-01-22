@@ -70,7 +70,7 @@ public class WebSocket {
     /**
      * 群发
      */
-    public static void sendAll(String message){
+    public void sendAll(String message){
         webSocketSet.forEach(socket -> {
             socket.sendMessage(message);
         });

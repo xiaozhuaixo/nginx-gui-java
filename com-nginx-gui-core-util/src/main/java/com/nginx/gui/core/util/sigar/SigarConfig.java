@@ -21,7 +21,12 @@ import java.io.*;
  * @Description:
  */
 @Log4j2
+@Configuration
 public class SigarConfig {
+
+    static {
+        initSigar();
+    }
 
     public static void initSigar(){
         SigarLoader sigarLoader = new SigarLoader(Sigar.class);
